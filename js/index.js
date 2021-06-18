@@ -486,14 +486,16 @@ class PushNotificationIOS {
         }
       });
     } else {
+
+      const { alertTitle, alertBody } = nativeNotif;
       // Local notifications aren't being sent down with `aps` dict.
       // TODO: remove applicationIconBadgeNumber on next major version
       this._badgeCount =
         nativeNotif.badge || nativeNotif.applicationIconBadgeNumber;
       // TODO: remove soundName on next major version
       this._sound = nativeNotif.sound || nativeNotif.soundName;
-      this._alert = nativeNotif.body;
-      this._title = nativeNotif?.title;
+      this._alert = alertBody ? alertBody : nativeNotif.body;
+      this._title = alertTitle ? alertTitle : nativeNotif?.title;
       this._subtitle = nativeNotif?.subtitle;
       this._threadID = nativeNotif['thread-id'];
       this._data = nativeNotif.userInfo;
